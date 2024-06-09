@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JKW</title>
+    <style>
+        #container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            border: 1px solid #000;
+        }
+        #player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50px;
+            height: 50px;
+        }
+        .block {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #000;
+        }
+        #endBlock {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: green;
+            bottom: 0;
+            right: 0;
+        }
+        @media (max-width: 1300px) {
+            #container {
+                width: 400px;
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <img id="player" src="playerB.png" alt="Player">
+        <div class="block" style="top: 100px; left: 100px;"></div>
+        <div class="block" style="top: 200px; left: 300px;"></div>
+        <div id="endBlock"></div>
+        <!-- Add more blocks as needed -->
+    </div>
+
+    <script>
+        const player = document.getElementById('player');
+        const container = document.getElementById('container');
+        const blocks = document.querySelectorAll('.block');
+        const endBlock = document.getElementById('endBlock');
+        const step = 5; // Number of pixels to move per interval
+        const interval = 10; // Interval time in milliseconds
+        const minDistance = 50; // Minimum distance from blocks
+
+        let keysPressed = {};
+        let moveInterval = null;
+
+        const movePlayer = () => {
+            let top = parseInt(player.style.top) || 0;
+            let left = parseInt(player.style.left) || 0;
+
+            let newTop = top;
+            let newLeft = left;
+
+            // Calculate player's center position
+            const playerCenterX = left + player.offsetWidth / 2;
+            const playerCenterY = top + player.offsetHeight / 2;
+
+            // Check distance to each block
+            blocks.forEach(block => {
+                const blockRect = block.getBoundingClientRect();
+
+                // Calculate block's center position
+                const blockCenterX = blockRect.left + block.offsetWidth / 2;
+                const blockCenterY = blockRect.top + block.offsetHeight / 2;
+
+                // Calculate distance between player and block
+                const distanceX = Math.abs(playerCenterX - blockCenterX);
+                const distanceY = Math.abs(playerCenterY - blockCenterY);
+
+                // Check if player is too close to the block
+                if (distanceX < minDistance + player.offsetWidth / 2 && distanceY < minDistance + player.offsetHeight / 2) {
+                    // Player is too close, adjust movement
+                    if (playerCenterX < blockCenterX) {
+                        newLeft = Math.min(newLeft, blockRect.left - player.offsetWidth - minDistance);
+                    } else {
+                        newLeft = Math.max(newLeft, blockRect.right + minDistance);
+                    }
+
+                    if (playerCenterY < blockCenterY) {
+                        newTop = Math.min(newTop, blockRect.top - player.offsetHeight - minDistance);
+                    } else {
+                        newTop = Math.max(newTop, blockRect.bottom + minDistance);
+                    }
+                }
+            });
+
+            // Check distance to end block
+            const endBlockRect = endBlock.getBoundingClientRect();
+            const endBlockCenterX = endBlockRect.left + endBlock.offsetWidth / 2;
+            const endBlockCenterY = endBlockRect.top + endBlock.offsetHeight / 2;
+            const distanceToEndBlockX = Math.abs(playerCenterX - endBlockCenterX);
+            const distanceToEndBlockY = Math.abs(playerCenterY - endBlockCenterY);
+
+            if (distanceToEndBlockX < minDistance + player.offsetWidth / 2 && distanceToEndBlockY < minDistance + player.offsetHeight / 2) {
+                // Player reached the end block, redirect to "fim.html"
+                window.location.href = "fim.html";
+            }
+
+            // Update player position
+            if (keysPressed['w'] || keysPressed['W'] || keysPressed['ArrowUp']) {
+                newTop = Math.max(top - step, 0);
+            }
+            if (keysPressed['a'] || keysPressed['A'] || keysPressed['ArrowLeft']) {
+                newLeft = Math.max(left - step, 0);
+            }
+            if (keysPressed['s'] || keysPressed['S'] || keysPressed['ArrowDown']) {
+                newTop = Math.min(container.clientHeight - player.clientHeight, top + step);
+            }
+            if (keysPressed['d'] || keysPressed['D'] || keysPressed['ArrowRight']) {
+                newLeft = Math.min(container.clientWidth - player.clientWidth, left + step);
+            }
+
+            player.style.top = newTop + 'px';
+            player.style.left = newLeft + 'px';
+        };
+
+        const startMoving = () => {
+            if (!moveInterval) {
+                moveInterval = setInterval(movePlayer, interval);
+            }
+        };
+
+        const stopMoving = () => {
+            clearInterval(moveInterval);
+            moveInterval = null;
+        };
+
+        document.addEventListener('keydown', (event) => {
+            keysPressed[event.key] = true;
+            startMoving();
+        });
+
+        document.addEventListener('keyup', (event) => {
+            delete keysPressed[event.key];
+            if (Object.keys(keysPressed).length === 0) {
+                stopMoving();
+            }
+        });
+    </script>
+</body>
+</html>

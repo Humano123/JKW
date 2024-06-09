@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JKW</title>
+    <link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-image: url(verde-Photoroom.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .parte{
+            text-decoration: none;
+        }
+        input{
+            background-color: yellow;
+            color: black;
+            transition: transform 0.2s ease-in-out;
+            border: 0;
+            font-size: 10vh;
+            border-radius: 10px;
+        }
+        input:hover{
+            background-color: rgb(196, 196, 0);
+            transform: translateY(-0.5vh);
+            cursor: pointer;
+        }
+        input:active{
+            background-color: yellowgreen;
+            cursor: wait;
+        }
+        .partee:hover{
+            cursor: pointer;
+        }
+        .partee:active{
+            cursor: wait;
+        }
+        .sims, .sims2{
+            display: flex;
+            justify-content: space-around;
+        }
+        @media (max-width: 1300px){
+            input{
+                font-size: 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <br><br><br>
+    <br>
+    <br><br><br>
+    <div class="sims">
+    <div class="partee"><a class="parte" href="jogo1.html"><input type="button" value="Mapa clássico"></a></div>
+    <div class="partee"><a class="parte" href="jogo2.html"><input type="button" value="Mapa clássico 2"></a></div>
+    <div class="partee"><a class="parte" href="jogo3.html"><input type="button" value="Mapa da casa"></a></div>
+</div>
+<br>
+<div class="sims2">
+    <div class="partee"><a class="parte" href="jogo4.html"><input type="button" value="Ser testado ainda"></a></div>
+</div>
+</body>
+</html>

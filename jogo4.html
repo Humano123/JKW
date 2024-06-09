@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JKW</title>
+    <style>
+        #container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            border: 1px solid #000;
+            background-color: rgb(248, 206, 38);
+        }
+        #player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50px;
+            height: 50px;
+            z-index: 1; /* Colocando o boneco acima dos outros elementos */
+        }
+        .block {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #000;
+        }
+        .iceBlock { /* Novo estilo para os blocos congelantes */
+            background-color: lightblue;
+        }
+        #endBlock {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: green;
+            bottom: 0;
+            right: 0;
+        }
+        #carpet {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+            top: 300px;
+            left: 300px;
+            z-index: 0; /* Colocando o bloco rosa abaixo do boneco */
+        }
+        @media (max-width: 1300px) {
+            #container {
+                width: 400px;
+                height: 300px;
+            }
+            #player {
+                width: 25px;
+                height: 25px;
+            }
+            .block {
+                width: 25px;
+                height: 25px;
+            }
+            .iceBlock {
+                width: 25px;
+                height: 25px;
+            }
+            #endBlock {
+                width: 25px;
+                height: 25px;
+            }
+            #carpet {
+                width: 100px;
+                height: 100px;
+                top: 150px;
+                left: 150px;
+            }
+            /* Ajustando posições dos blocos proporcionalmente */
+            .block:nth-child(2) { top: 50px; left: 50px; }
+            .block:nth-child(3) { top: 50px; left: 75px; }
+            .block:nth-child(4) { top: 50px; left: 100px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <img id="player" src="playerB.png" alt="Player">
+        <div class="block" style="top: 100px; left: 100px;"></div>
+        <div class="block" style="top: 100px; left: 150px;"></div>
+        <div class="block" style="top: 100px; left: 200px;"></div>
+        <div id="endBlock"></div>
+        <div id="carpet"></div>
+    </div>
+
+    <script>
+        const player = document.getElementById('player');
+        const container = document.getElementById('container');
+        const blocks = document.querySelectorAll('.block');
+        const iceBlocks = document.querySelectorAll('.iceBlock'); // Selecionando os blocos de gelo
+        const endBlock = document.getElementById('endBlock');
+        const step = 5; // Número de pixels para mover por intervalo
+        const interval = 10; // Tempo de intervalo em milissegundos
+        const minDistance = 10; // Distância mínima dos blocos
+
+        let keysPressed = {};
+        let moveInterval = null;
+
+        const movePlayer = () => {
+            let top = parseInt(player.style.top) || 0;
+            let left = parseInt(player.style.left) || 0;
+
+            let newTop = top;
+            let newLeft = left;
+
+            // Calcular a posição central do jogador
+            const playerCenterX = left + player.offsetWidth / 2;
+            const playerCenterY = top + player.offsetHeight / 2;
+
+            // Verificar a distância para cada bloco
+            blocks.forEach(block => {
+                const blockRect = block.getBoundingClientRect();
+
+                // Calcular a posição central do bloco
+                const blockCenterX = blockRect.left + block.offsetWidth / 2;
+                const blockCenterY = blockRect.top + block.offsetHeight / 2;
+
+               
+                // Calcular a distância entre o jogador e o bloco
+                const distanceX = Math.abs(playerCenterX - blockCenterX);
+                const distanceY = Math.abs(playerCenterY - blockCenterY);
+
+                // Verificar se o jogador está muito perto do bloco
+                if (distanceX < minDistance + player.offsetWidth / 2 && distanceY < minDistance + player.offsetHeight / 2) {
+                    // O jogador está muito perto, ajustar o movimento
+                    if (playerCenterX < blockCenterX) {
+                        newLeft = Math.min(newLeft, blockRect.left - player.offsetWidth - minDistance);
+                    } else {
+                        newLeft = Math.max(newLeft, blockRect.right + minDistance);
+                    }
+
+                    if (playerCenterY < blockCenterY) {
+                        newTop = Math.min(newTop, blockRect.top - player.offsetHeight - minDistance);
+                    } else {
+                        newTop = Math.max(newTop, blockRect.bottom + minDistance);
+                    }
+                }
+            });
+
+            // Verificar a distância para os blocos de gelo
+            iceBlocks.forEach(iceBlock => {
+                const iceBlockRect = iceBlock.getBoundingClientRect();
+
+                // Calcular a posição central do bloco de gelo
+                const iceBlockCenterX = iceBlockRect.left + iceBlock.offsetWidth / 2;
+                const iceBlockCenterY = iceBlockRect.top + iceBlock.offsetHeight / 2;
+
+                // Calcular a distância entre o jogador e o bloco de gelo
+                const distanceX = Math.abs(playerCenterX - iceBlockCenterX);
+                const distanceY = Math.abs(playerCenterY - iceBlockCenterY);
+
+                // Verificar se o jogador está muito perto do bloco de gelo
+                if (distanceX < minDistance + player.offsetWidth / 2 && distanceY < minDistance + player.offsetHeight / 2) {
+                    // O jogador está muito perto do bloco de gelo, reiniciar a fase
+                    window.location.reload();
+                }
+            });
+
+            // Verificar a distância para o bloco final
+            const endBlockRect = endBlock.getBoundingClientRect();
+            const endBlockCenterX = endBlockRect.left + endBlock.offsetWidth / 2;
+            const endBlockCenterY = endBlockRect.top + endBlock.offsetHeight / 2;
+            const distanceToEndBlockX = Math.abs(playerCenterX - endBlockCenterX);
+            const distanceToEndBlockY = Math.abs(playerCenterY - endBlockCenterY);
+
+            if (distanceToEndBlockX < minDistance + player.offsetWidth / 2 && distanceToEndBlockY < minDistance + player.offsetHeight / 2) {
+                // O jogador chegou ao bloco final, redirecionar para "fim.html"
+                window.location.href = "fim.html";
+            }
+
+            // Atualizar a posição do jogador
+            if (keysPressed['w'] || keysPressed['W'] || keysPressed['ArrowUp']) {
+                newTop = Math.max(top - step, 0);
+            }
+            if (keysPressed['a'] || keysPressed['A'] || keysPressed['ArrowLeft']) {
+                newLeft = Math.max(left - step, 0);
+            }
+            if (keysPressed['s'] || keysPressed['S'] || keysPressed['ArrowDown']) {
+                newTop = Math.min(container.clientHeight - player.clientHeight, top + step);
+            }
+            if (keysPressed['d'] || keysPressed['D'] || keysPressed['ArrowRight']) {
+                newLeft = Math.min(container.clientWidth - player.clientWidth, left + step);
+            }
+
+            player.style.top = newTop + 'px';
+            player.style.left = newLeft + 'px';
+        };
+
+        const startMoving = () => {
+            if (!moveInterval) {
+                moveInterval = setInterval(movePlayer, interval);
+            }
+        };
+
+        const stopMoving = () => {
+            clearInterval(moveInterval);
+            moveInterval = null;
+        };
+
+        document.addEventListener('keydown', (event) => {
+            keysPressed[event.key] = true;
+            startMoving();
+        });
+
+        document.addEventListener('keyup', (event) => {
+            delete keysPressed[event.key];
+            if (Object.keys(keysPressed).length === 0) {
+                stopMoving();
+            }
+        });
+    </script>
+</body>
+</html>
