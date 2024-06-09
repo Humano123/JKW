@@ -82,9 +82,8 @@
         const container = document.getElementById('container');
         const blocks = document.querySelectorAll('.block');
         const endBlock = document.getElementById('endBlock');
-        const step = 5; // Number of pixels to move per interval
-        const interval = 10; // Interval time in milliseconds
-        const minDistance = 50; // Minimum distance from blocks
+        const step = 5; // Número de pixels a mover por intervalo
+        const interval = 10; // Tempo de intervalo em milissegundos
 
         let keysPressed = {};
         let moveInterval = null;
@@ -105,24 +104,21 @@
             let top = parseInt(player.style.top) || 0;
             let left = parseInt(player.style.left) || 0;
 
-            let newTop = top;
-            let newLeft = left;
-
             if (keysPressed['w'] || keysPressed['W'] || keysPressed['ArrowUp']) {
-                newTop = Math.max(top - step, 0);
+                top = Math.max(top - step, 0);
             }
             if (keysPressed['a'] || keysPressed['A'] || keysPressed['ArrowLeft']) {
-                newLeft = Math.max(left - step, 0);
+                left = Math.max(left - step, 0);
             }
             if (keysPressed['s'] || keysPressed['S'] || keysPressed['ArrowDown']) {
-                newTop = Math.min(container.clientHeight - player.clientHeight, top + step);
+                top = Math.min(container.clientHeight - player.clientHeight, top + step);
             }
             if (keysPressed['d'] || keysPressed['D'] || keysPressed['ArrowRight']) {
-                newLeft = Math.min(container.clientWidth - player.clientWidth, left + step);
+                left = Math.min(container.clientWidth - player.clientWidth, left + step);
             }
 
-            player.style.top = newTop + 'px';
-            player.style.left = newLeft + 'px';
+            player.style.top = top + 'px';
+            player.style.left = left + 'px';
 
             if (checkCollisionWithEndBlock()) {
                 window.location.href = "fim.html";
@@ -152,53 +148,34 @@
             }
         });
 
-        document.getElementById('up').addEventListener('mousedown', () => {
-            keysPressed['ArrowUp'] = true;
-            startMoving();
-        });
+        const addMobileControls = (buttonId, key) => {
+            const button = document.getElementById(buttonId);
+            button.addEventListener('mousedown', () => {
+                keysPressed[key] = true;
+                startMoving();
+            });
+            button.addEventListener('mouseup', () => {
+                delete keysPressed[key];
+                if (Object.keys(keysPressed).length === 0) {
+                    stopMoving();
+                }
+            });
+            button.addEventListener('touchstart', () => {
+                keysPressed[key] = true;
+                startMoving();
+            });
+            button.addEventListener('touchend', () => {
+                delete keysPressed[key];
+                if (Object.keys(keysPressed).length === 0) {
+                    stopMoving();
+                }
+            });
+        };
 
-        document.getElementById('up').addEventListener('mouseup', () => {
-            delete keysPressed['ArrowUp'];
-            if (Object.keys(keysPressed).length === 0) {
-                stopMoving();
-            }
-        });
-
-        document.getElementById('down').addEventListener('mousedown', () => {
-            keysPressed['ArrowDown'] = true;
-            startMoving();
-        });
-
-        document.getElementById('down').addEventListener('mouseup', () => {
-            delete keysPressed['ArrowDown'];
-            if (Object.keys(keysPressed).length === 0) {
-                stopMoving();
-            }
-        });
-
-        document.getElementById('left').addEventListener('mousedown', () => {
-            keysPressed['ArrowLeft'] = true;
-            startMoving();
-        });
-
-        document.getElementById('left').addEventListener('mouseup', () => {
-            delete keysPressed['ArrowLeft'];
-            if (Object.keys(keysPressed).length === 0) {
-                stopMoving();
-            }
-        });
-
-        document.getElementById('right').addEventListener('mousedown', () => {
-            keysPressed['ArrowRight'] = true;
-            startMoving();
-        });
-
-        document.getElementById('right').addEventListener('mouseup', () => {
-            delete keysPressed['ArrowRight'];
-            if (Object.keys(keysPressed).length === 0) {
-                stopMoving();
-            }
-        });
+        addMobileControls('up', 'ArrowUp');
+        addMobileControls('down', 'ArrowDown');
+        addMobileControls('left', 'ArrowLeft');
+        addMobileControls('right', 'ArrowRight');
     </script>
 </body>
 </html>
