@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JKWL</title>
+    <style>
+        body{
+            text-align: center;
+            background-color: rgb(41, 41, 41);
+        }
+        h1{
+            color: aliceblue;
+        }
+        input{
+            border: 0;
+            font-size: 100%;
+            border-radius: 5px;
+        }
+        input:hover{
+            cursor: pointer;
+        }
+        .sim{
+            background-color: green;
+            color: aliceblue;
+            transition: transform 0.3s ease-in-out;
+        }
+        .nao{
+            background-color: red;
+            color: aliceblue;
+            transition: transform 0.7s ease-in-out;
+        }
+        .sim:hover{
+            transform: translateY(-3px);
+        }
+        .nao:hover{
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <h1>Você deseja jogar o tutorial?</h1>
+<div>
+    <a href="tutorial.html"><input class="sim" type="button" value="Sim"></a>
+    <a href="fim.html"><input class="nao" type="button" value="Não"></a>
+</div>
+</body>
+</html>
