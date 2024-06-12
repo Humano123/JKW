@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JKWL?</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: linear-gradient(black, gray);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    .dialogue-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 400px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f0f0f0;
+        border: 2px solid #ccc;
+        position: relative;
+        background-color: rgb(163, 43, 43);
+    }
+    .character-img {
+        max-width: 100px;
+        height: auto;
+    }
+    .dialogue-text {
+        flex: 1;
+        margin: 0 10px;
+        text-align: left;
+    }
+    #next-btn {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #919191;
+        color: rgb(0, 0, 0);
+        border: none;
+        cursor: pointer;
+        border-radius: 10px;
+    }
+    #next-btn:hover {
+        background-color: #45a049;
+    }
+</style>
+</head>
+<body>
+
+<audio id="type-sound">
+    <source src="button-4.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+<div class="dialogue-container">
+    <img class="character-img" src="senor.png" alt="Senor">
+    <p class="dialogue-text" id="dialogue"></p>
+    <button id="next-btn" onclick="nextDialogue()">Próxima Fala</button>
+</div>
+
+<script>
+    var dialogueIndex = 0;
+    var dialogues = [
+        { character: "Senor", text: "L-limão?" },
+        { character: "Player B", text: "Olá, Senor. Como vai?" },
+        { character: "Player B", text: "Depois daquela coisa que o senhor fez..." },
+        { character: "Senor", text: "L-limão, acredita em mim, foi pelo seu bem!" },
+        { character: "Player B", text: "Meu bem p$@@a nenhuma!" },
+        { character: "Player B", text: "Você literalmente m#@$u minha mãe!" },
+        { character: "Senor", text: "N-não foi eu!" },
+        { character: "Player B", text: "Então por que está gaguejando?" },
+        { character: "Senor", text: "N-não estou gaguejando" },
+        { character: "Player B", text: "Quer saber? f@#@-se" },
+        { character: "", text: "" },
+        { character: "Nada", text: "." },
+        { character: "Depois", text: "Tenho que me esconder!" }
+        // Adicione mais diálogos conforme necessário
+    ];
+
+    var currentText = "";
+    var dialogueElement = document.getElementById("dialogue");
+    var typingSpeed = 50; // Velocidade da digitação em milissegundos
+    var typeSound = document.getElementById("type-sound");
+
+    function playTypeSound() {
+        typeSound.currentTime = 0;
+        typeSound.play();
+    }
+
+    function typeDialogue(text) {
+        var index = 0;
+        var interval = setInterval(function() {
+            currentText += text.charAt(index);
+            dialogueElement.innerText = currentText;
+            playTypeSound(); // Chama a função para reproduzir o som
+            index++;
+            if (index > text.length - 1) {
+                clearInterval(interval);
+            }
+        }, typingSpeed);
+    }
+
+    function nextDialogue() {
+        if (dialogueIndex < dialogues.length) {
+            var dialogue = dialogues[dialogueIndex];
+            dialogueIndex++;
+            currentText = "";
+            typeDialogue(dialogue.text);
+            // Alterna a imagem do personagem com base no nome do personagem
+            switch (dialogue.character) {
+                case "Senor":
+                    document.getElementsByClassName("character-img")[0].src = "senor.png";
+                    break;
+                case "Player B":
+                    document.getElementsByClassName("character-img")[0].src = "playerB.png";
+                    break;
+                case "Depois":
+                    document.getElementsByClassName("character-img")[0].src = "depois.png";
+                    break;
+                case "Nada":
+                    document.getElementsByClassName("character-img")[0].src = "nada.png";
+                    break;
+                default:
+                    document.getElementsByClassName("character-img")[0].src = "senor.png"; // Fallback
+                    break;
+            }
+        } else {
+            // Após o fim do diálogo, redireciona para o fim.html após 3 segundos
+            setTimeout(function() {
+                window.location.href = "fim .html";
+            }, 3000); // Tempo em milissegundos (3 segundos)
+        }
+    }
+
+    // Iniciar o primeiro diálogo
+    nextDialogue();
+</script>
+
+</body>
+</html>
