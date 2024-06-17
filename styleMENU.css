@@ -35,8 +35,8 @@
     font-size: 500%;
     margin: auto;
     margin-top: 20vh;
-    padding-left: 30vh;
-    padding-right: 30vh;
+    padding-left: 10vh;
+    padding-right: 10vh;
   }
   .input:hover{
     background-color: rgb(157, 0, 78);
@@ -86,4 +86,14 @@
   }
   footer{
     text-align: center;
+  }
+  .div{
+    background-color: azure;
+    border-radius: 5px;
+  }
+  .pz{
+    color: brown;
+  }
+  .b{
+    color: blue;
   }

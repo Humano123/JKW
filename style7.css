@@ -33,7 +33,7 @@ body, html {
     position: absolute;
     width: 6.25vmin;
     height: 6.25vmin;
-    background-color: #000;
+    background-color: #ffffff;
 }
 
 #endBlock {
@@ -68,17 +68,27 @@ body, html {
         height: 30vmin;
     }
 
-    #player, .block, #endBlock, .controls button {
+    .block, #endBlock, .controls button {
         width: 3.125vmin;
         height: 3.125vmin;
     }
-
+    #player{
+        width: 2.125vmin;
+        height: 2.125vmin;
+    }
     .controls {
         margin-left: 1vmin;
     }
 
     .controls button {
         margin: 0.3125vmin;
+    }
+}
+
+@media (max-width: 1000px) {
+    #player{
+        width: 2.0vmin;
+        height: 2.0vmin;
     }
 }
 
