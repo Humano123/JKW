@@ -25,6 +25,14 @@
             height: 50px;
             background-color: #000;
         }
+        #senor{
+            width: 30px;
+            height: 30px;
+            background-image: url(senor.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: #e4202000;
+        }
         #endBlock {
             position: absolute;
             width: 50px;
@@ -60,6 +68,9 @@
         footer{
             text-align: center;
         }
+        img{
+      user-select: none;
+    }
     </style>
 </head>
 <body>
@@ -73,6 +84,7 @@
             <img id="player" src="playerB.png" alt="Player">
             <div class="block" style="top: 100px; left: 100px;"></div>
             <div class="block" style="top: 200px; left: 300px;"></div>
+            <div class="block" id="senor" style="top: 90px; left: 300px;"></div>
             <div id="endBlock"></div>
             <!-- Adicione mais blocos conforme necessário -->
         </div>
@@ -238,6 +250,7 @@
     </script>
     <footer>&copy;Feito por Thiago bel</footer>
     <script type="module" src="script.js"></script>
+    <script type="module" src="NOMOBILE.js"></script>
 
 </body>
 </html>

@@ -12,6 +12,7 @@
   .log{
     color: aliceblue;
     font-size: 10vh;
+    user-select: none;
   }
   .sima{
     display: flex;
@@ -37,6 +38,10 @@
     margin-top: 20vh;
     padding-left: 10vh;
     padding-right: 10vh;
+    user-select: none;
+  }
+  button{
+    user-select: none;
   }
   .input:hover{
     background-color: rgb(157, 0, 78);
@@ -51,7 +56,7 @@
   }
   .simaall{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
   }
   .ajuda{
     background-color: rgb(255, 0, 0);
@@ -97,3 +102,10 @@
   .b{
     color: blue;
   }
+  .acd{
+    color: aliceblue;
+  }
+  .acd2{
+    background-color: red;
+  }
+  

@@ -7,8 +7,11 @@
     <link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
     <link rel="stylesheet" href="styleDEBUG.css">
     <style>
-                BODY{
+        body {
             background-color: black;
+        }
+        label{
+            color: aliceblue;
         }
     </style>
 </head>
@@ -31,12 +34,16 @@
         </div>
     </div>
 
+    <!-- Input para ajustar a velocidade -->
+    <label for="speedInput">Velocidade:</label>
+    <input type="number" id="speedInput" value="1" min="1">
+
     <script>
         const player = document.getElementById('player');
         const container = document.getElementById('container');
         const blocks = document.querySelectorAll('.block');
         const endBlock = document.getElementById('endBlock');
-        const step = 1; // Número de pixels a mover por intervalo
+        let step = parseInt(document.getElementById('speedInput').value); // Inicializa com o valor do input
         const interval = 0.3; // Tempo de intervalo em milissegundos
         const minDistance = 50; // Distância mínima dos blocos
 
@@ -125,6 +132,16 @@
             if (checkCollisionWithEndBlock()) {
                 window.location.href = "dialogo.html";
             }
+
+            // Verificar se a velocidade é 666 para redirecionar para index.html
+            if (step >= 666) {
+                window.location.href = "index.html";
+                // Bloquear a navegação de volta para debug.html
+                history.pushState(null, null, location.href);
+                window.onpopstate = function () {
+                    history.go(1);
+                };
+            }
         };
 
         const startMoving = () => {
@@ -180,9 +197,24 @@
         addMobileControls('down', 'ArrowDown');
         addMobileControls('left', 'ArrowLeft');
         addMobileControls('right', 'ArrowRight');
+
+        // Evento para alterar a velocidade quando o usuário mudar o input
+        document.getElementById('speedInput').addEventListener('change', function() {
+            const newSpeed = parseInt(this.value);
+            if (!isNaN(newSpeed) && newSpeed >= 666) {
+                window.location.href = "index.html";
+                // Bloquear a navegação de volta para debug.html
+                history.pushState(null, null, location.href);
+                window.onpopstate = function () {
+                    history.go(1);
+                };
+            } else {
+                step = newSpeed;
+            }
+        });
     </script>
     <footer>&copy;Feito por Thiago bel</footer>
     <script type="module" src="script.js"></script>
-
+    <script type="module" src="NOMOBILE.js"></script>
 </body>
 </html>

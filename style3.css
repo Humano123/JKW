@@ -66,6 +66,7 @@ body, html {
     width: 50px;
     height: 50px;
     margin: 5px;
+    opacity: 0;
 }
 
 .control-row {

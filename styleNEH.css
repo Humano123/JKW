@@ -19,7 +19,7 @@ input:hover{
     transition: transform 0.3s ease-in-out;
 }
 .nao{
-    background-color: red;
+    background-color: rgb(255, 0, 0);
     color: aliceblue;
     transition: transform 0.7s ease-in-out;
 }
