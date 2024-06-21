@@ -15,12 +15,32 @@
         }
         img{
             user-select: none;
+            cursor: default;
         }
+    img:hover{
+      cursor: default;
+    }
         footer{
             user-select: text;
         }
         .easteregg{
             display: none;
+        }
+
+        /* Estilos para o popup */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgb(49, 49, 49);
+            padding: 40px;
+            border: 2px solid #767676;
+            border-radius: 2.3vh;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none; /* Inicialmente escondido */
+            color: azure;
         }
     </style>
 </head>
@@ -30,45 +50,120 @@
     <br>
     <br><br><br>
     <div class="sims">
-    <div class="partee"><a class="parte" href="jogo1.html"><input type="button" value="Mapa clássico"></a></div>
-    <div class="partee"><a class="parte" href="jogo2.html"><input type="button" value="Mapa clássico 2"></a></div>
-    <div class="partee"><a class="parte" href="jogo3.html"><input type="button" value="Mapa da casa"></a></div>
-</div>
-<br>
-<div class="sims">
-    <div class="partee"><a class="parte" href="jogo4.html"><input type="button" value="Escuridão"></a></div>
-    <div class="partee"><a class="parte" href="jogo5.html"><input type="button" value="Cegueira"></a></div>
-    <div class="partee"><a class="parte" href="jogo6.html"><input type="button" value="Mestre"></a></div>
-</div>
-<br>
-<div class="sims">
-    <div class="partee"><a href="debug.html"><input class="secreto" type="button" id="secretInput" value="???"></a></div>
-    <div class="partee"><a class="parte" href="jogo7.html"><input type="button" value="Cegueira mestre"></a></div>
-    <div class="partee"><a class="parte" href="jogo8.html"><input type="button" value="Oceano"></a></div>
-    <div class="partee"><a class="parte" href="jogo9.html"><input type="button" value="Espacial"></a></div></div>
-<script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-    const secretCode = ['S', 'E', 'N', 'O', 'R'];
-    let inputSequence = [];
+        <div class="partee"><a class="parte" href="jogo1.html"><input type="button" value="Mapa clássico"></a></div>
+        <div class="partee"><a class="parte" href="jogo2.html"><input type="button" value="Mapa clássico 2"></a></div>
+        <div class="partee"><a class="parte" href="jogo3.html"><input type="button" value="Mapa da casa"></a></div>
+    </div>
+    <br>
+    <div class="sims">
+        <div class="partee"><a class="parte" href="jogo4.html"><input type="button" value="Escuridão"></a></div>
+        <div class="partee"><a class="parte" href="jogo5.html"><input type="button" value="Cegueira"></a></div>
+        <div class="partee"><a class="parte" href="jogo6.html"><input type="button" value="Mestre"></a></div>
+    </div>
+    <br>
+    <div class="sims">
+        <div class="partee"><a href="debug.html"><input class="secreto" type="button" id="secretInput" value="???"></a></div>
+        <div class="partee"><a class="parte" href="jogo7.html"><input type="button" value="Cegueira mestre"></a></div>
+        <div class="partee"><a class="parte" href="jogo8.html"><input type="button" value="Oceano"></a></div>
+        <div class="partee"><a class="parte" href="jogo9.html"><input type="button" value="Espacial"></a></div>
+    </div>
 
-    document.addEventListener('keydown', (event) => {
-        const key = event.key.toUpperCase();
-        inputSequence.push(key);
+    <footer>&copy;Feito por Thiago bel</footer>
 
-        if (inputSequence.length > secretCode.length) {
-            inputSequence.shift();
-        }
+    <!-- Popup -->
+    <div class="popup" id="popup">
+        <h1>Aguarde...</h1>
+    </div>
 
-        if (inputSequence.join('') === secretCode.join('')) {
-            document.getElementById('secretInput').style.display = 'block';
-        }
+    <script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Função para lidar com o clique nos links
+    const handleLinkClick = (event) => {
+        event.preventDefault(); // Prevenir o comportamento padrão de navegação
+        const url = event.currentTarget.href; // Obter o URL do link clicado
+
+        // Gerar um token único para validação
+        const token = generateToken();
+
+        // Mostrar o popup
+        const popup = document.getElementById('popup');
+        popup.style.display = 'block';
+
+        const loadingText = document.createElement('p');
+        loadingText.textContent = 'Carregando...';
+        popup.appendChild(loadingText);
+
+        // Barra de progresso
+        const progressBar = document.createElement('div');
+        progressBar.style.width = '0%';
+        progressBar.style.height = '10px';
+        progressBar.style.backgroundColor = '#4CAF50';
+        progressBar.style.marginTop = '10px';
+        popup.appendChild(progressBar);
+
+        // Imagem do senor
+        const senorImg = document.createElement('img');
+        senorImg.src = 'senor.png';
+        senorImg.alt = 'senor';
+        senorImg.width = 50;
+        senorImg.height = 50;
+        senorImg.style.cursor = 'pointer';
+        senorImg.style.transition = 'transform 0.3s ease-out'; // Transição para a animação de rotação
+        popup.appendChild(senorImg);
+
+        // Contador de cliques no senorImg
+        let clickCount = 0;
+
+        // Função para lidar com cliques no senorImg
+        const handleSenorClick = () => {
+            clickCount++;
+            if (clickCount === 123) {
+                window.location.href = `secreteGame.html?token=${token}`; // Redireciona para secreteGame.html com token na URL
+            }
+            // Girar mais rápido a cada clique
+            const currentRotation = parseFloat(getComputedStyle(senorImg).getPropertyValue('--rotation') || '0');
+            const newRotation = currentRotation + 90; // Aumenta 90 graus a cada clique
+            senorImg.style.setProperty('--rotation', `${newRotation}deg`);
+        };
+
+        // Adicionar evento de clique para senorImg
+        senorImg.addEventListener('click', handleSenorClick);
+
+        // Início da contagem de tempo
+        const startTime = performance.now();
+
+        // Função para atualizar a barra de progresso
+        const updateProgress = () => {
+            const currentTime = performance.now();
+            const elapsedTime = (currentTime - startTime) / 1000; // Tempo decorrido em segundos
+            progressBar.style.width = `${(elapsedTime / 3.5) * 100}%`; // 3.5 segundos correspondem a 100% da barra
+            if (elapsedTime >= 3.5) {
+                clearInterval(progressInterval);
+                // Após o carregamento completo, redirecionar para o URL
+                window.location.href = url;
+            }
+        };
+
+        // Chamar updateProgress a cada 10ms (0.01 segundos)
+        const progressInterval = setInterval(updateProgress, 10);
+    };
+
+    // Adicionar evento de clique para cada link com a classe 'parte'
+    const links = document.querySelectorAll('.parte');
+    links.forEach(link => {
+        link.addEventListener('click', handleLinkClick);
     });
+
+    // Função para gerar um token único
+    function generateToken() {
+        // Gera um número aleatório com base no timestamp atual
+        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    }
 });
 
-</script>
-<footer>&copy;Feito por Thiago bel</footer>
-<script type="module" src="script.js"></script>
-<script type="module" src="NOMOBILE.js"></script>
+    </script>
 
+    <script type="module" src="script.js"></script>
+    <script type="module" src="NOMOBILE.js"></script>
 </body>
 </html>
