@@ -107,9 +107,6 @@
     #outroOverlay .content p {
       color: black; /* Cor do texto em preto */
     }
-    .aaaaa{
-      text-decoration: underline;
-    }
     button{
       scale: 1;
     }
@@ -140,7 +137,16 @@
     img{
       user-select: none;
     }
-    /* Define a cor do texto ao passar o mouse por cima */
+    .aaaaa{
+      text-decoration: none;
+    }
+    .aaaaa:hover{
+      text-decoration: underline;
+    }
+    .pdoajuda::selection{
+      background-color: #ffffff; /* Cor de fundo da seleção */
+      color: #000000;
+    }
   </style>
 </head>
 <body>
@@ -150,7 +156,7 @@
         <img class="logoo" src="logo-Photoroom.png" width="100vh" ondragstart="return false;">
         <h1 class="log">superlimon</h1>
       </div>
-      <p class="acd">Versão: <b class="acd2">3.5</b></p>
+      <p class="acd">Versão: <b class="acd2">4.0</b></p>
       <div class="top-right-buttons">
         <button class="nov" id="showNovidades">Novidades</button>
         <button class="outro" id="showOutro">Discord</button>
@@ -173,12 +179,12 @@
   <div id="novidadesOverlay" class="overlay">
     <div class="content">
       <button class="closeButton" id="closeNovidades">Fechar</button>
-      <h1 class="asad">Novidades!</h1>
+      <h1 class="asad">Novidades!</h1> 
       <br>
       <br>
       <p class="Vermelho">1. Não será mais possível usar versões portáteis (Celulares/Tablets) apenas computadores...</p>
       <br>
-      <p class="Verde">2. Adicionamos mais uma fase para o jogo...</p>
+      <p class="Verde">2. Adicionamos mais duas fases para o jogo...</p>
       <br>
       <p class="Verde">3. Alguns bugs resolvidos...</p>
       <video width="320" height="240" autoplay loop muted playsinline ondragstart="return false">
@@ -194,7 +200,7 @@
   <div class="content">
     <button class="closeButton" id="closeOutro">Fechar</button>
     <h1 class="asad">Servidor do discord</h1>
-    <p>Link do dsicord</p>
+    <p>Link do discord</p>
     <a class="aaaaa" href="https://discord.gg/EamZ94ChJb" target="_blank" rel="noopener noreferrer">https://discord.gg/EamZ94ChJb</a>
   </div>
 </div>
@@ -205,9 +211,9 @@
     <div class="content">
       <button class="closeButton" id="closeAjuda">Fechar</button>
       <h1 class="asad">Ajuda</h1>
-      <p>Aqui você pode encontrar informações úteis para jogar o Superlimon.</p>
-      <p>Para se movimentar, use as teclas WASD ou as setas que se localiza em baixo do shift maior</p>
-      <p>A versão 3.0 para cima não funciona para mobile por conta de bugs, por isso, é impossivel jogar</p>
+      <p class="pdoajuda">Aqui você pode encontrar informações úteis para jogar o Superlimon.</p>
+      <p class="pdoajuda">Para se movimentar, use as teclas WASD ou as setas que se localiza em baixo do shift maior</p>
+      <p class="pdoajuda">A versão 3.0 para cima não funciona para mobile por conta de bugs, por isso, é impossivel jogar</p>
     </div>
   </div>
 

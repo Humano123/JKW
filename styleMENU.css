@@ -27,6 +27,9 @@
   .p{
     color: aliceblue;
   }
+  button:hover{
+    text-decoration: underline;
+  }
   .input{
     background-color: rgb(216, 0, 137);
     border-color: rgb(255, 255, 255);
@@ -47,6 +50,7 @@
     background-color: rgb(157, 0, 78);
     transform: translateY(-6px);
     cursor: pointer;
+    text-decoration: underline;
   }
   .input:active{
     transform: scale(0.6);

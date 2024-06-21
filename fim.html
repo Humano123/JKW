@@ -7,12 +7,25 @@
     <link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
     <link rel="stylesheet" href="styleFIM.css">
     <style>
-                #secretInput {
+        body{
+            user-select: none;
+        }
+        #secretInput {
+            display: none;
+        }
+        img{
+            user-select: none;
+        }
+        footer{
+            user-select: text;
+        }
+        .easteregg{
             display: none;
         }
     </style>
 </head>
 <body>
+    <img class="easteregg" src="senor.png" alt="senor" width="30" height="30" ondragstart="return false">
     <br><br><br>
     <br>
     <br><br><br>
@@ -31,7 +44,8 @@
 <div class="sims">
     <div class="partee"><a href="debug.html"><input class="secreto" type="button" id="secretInput" value="???"></a></div>
     <div class="partee"><a class="parte" href="jogo7.html"><input type="button" value="Cegueira mestre"></a></div>
-    <div class="partee"><a class="parte" href="jogo8.html"><input type="button" value="Oceano"></a></div></div>
+    <div class="partee"><a class="parte" href="jogo8.html"><input type="button" value="Oceano"></a></div>
+    <div class="partee"><a class="parte" href="jogo9.html"><input type="button" value="Espacial"></a></div></div>
 <script>
     document.addEventListener('DOMContentLoaded', (event) => {
     const secretCode = ['S', 'E', 'N', 'O', 'R'];

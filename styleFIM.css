@@ -24,10 +24,12 @@ input:hover{
     background-color: rgb(196, 196, 0);
     transform: translateY(-0.5vh);
     cursor: pointer;
+    text-decoration: underline;
 }
 input:active{
     background-color: yellowgreen;
     cursor: wait;
+    transform: scale(0.5);
 }
 .partee:hover{
     cursor: pointer;
