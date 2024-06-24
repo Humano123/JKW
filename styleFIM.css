@@ -21,11 +21,12 @@ footer{
 .mapas{
     background-color: #1d1d1d8e;
     border-radius: 0.3vh;
-    width: 95vh;
+    width: auto;
+    height: 100vh;
     margin: auto;
-    margin-top: 20%;
+    width: 100%;
     overflow: auto;
-    max-height: 300px;
+    max-height: 500px;
 }
 .overlay{
     background-color: aqua;
@@ -90,12 +91,10 @@ background-color: rgb(202, 202, 202);
 color: black;
 transition: transform 0.2s ease-in-out;
 border: 0;
-font-size: 10vh;
+font-size: 5vh;
 padding-top: 3vh;
 padding-bottom: 3vh;
-width: 30vh;
 border-radius: 0.5vh;
-scale: 1;
 }
 input:hover{
 background-color: rgb(142, 142, 142);
@@ -116,18 +115,8 @@ cursor: wait;
 }
 .sims, .sims2{
 display: flex;
-justify-content: space-between;
+justify-content: space-around;
 margin-block: 1vh;
-}
-@media (max-width: 1300px){
-input{
-font-size: 300%;
-}
-}
-@media (max-width: 1000px){
-input{
-font-size: 100%;
-}
 }
 footer{
 text-align: center;
@@ -222,7 +211,6 @@ padding: 5px 10px;
 border-radius: 5px;
 cursor: pointer;
 }
-
 /* Estilo específico para o overlay de Ajuda */
 #helpOverlay .content {
 background-color: rgb(43, 107, 189); /* Cor de fundo azul */
@@ -270,33 +258,41 @@ color: black; /* Cor do título em preto */
 #outroOverlay .content p {
 color: black; /* Cor do texto em preto */
 }
-button{
-scale: 1;
-}
 .pDtelefone{
 display: none;
 color: rgb(88, 49, 49);
 }
-@media (max-width: 1000px) {
-button{
-scale: 0.8;
-}
 .pDtelefone{
 display: block;
 }
-}
-
-@media (max-width: 700px) {
-button{
-scale: 0.7;
-}
-.log{
-font-size: 200%;
-}
-.logoo{
-width: 10vh;
-}
-}
+@media (min-width: 700px) {
+    button{
+    scale: 0.7;
+    }
+    .log{
+    font-size: 200%;
+    }
+    .logoo{
+    width: 10vh;
+    }
+    .mapas{
+        scale: 0.5;
+    }
+    @media (max-width: 700px) {
+        button{
+        scale: 0.7;
+        }
+        .log{
+        font-size: 200%;
+        }
+        .logoo{
+        width: 10vh;
+        }
+        .mapas{
+            scale: 0.1;
+        }
+    }
+    }
 img{
 user-select: none;
 }
