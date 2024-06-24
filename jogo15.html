@@ -2,24 +2,37 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>superlimon</title>
     <link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
-    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="style15.css">
     <style>
-            img{
+        img{
       user-select: none;
+    }
+    .block:hover, #block:hover{
+        background-color: darkorange;
     }
     </style>
 </head>
 <body>
-    <div class="wrapper">
+    <div style="display: flex; justify-content: center; align-items: center;">
         <div id="container">
-            <img id="player" src="playerB.png" alt="Player" ondragstart="return false;">
-            <div class="block" style="top: 12.5%; left: 12.5%;"></div>
-            <div class="block" style="top: 25%; left: 37.5%;"></div>
-            <div id="endBlock"></div>
-            <!-- Adicione mais blocos conforme necessário -->
+            <img id="player" src="playerB.png" alt="Player" ondragstart="return false">
+            <div class="block respawn" style="top: 0%; left: 20%;"></div>
+            <div class="block respawn" style="top: 15%; left: 20%;"></div>
+            <div class="block respawn" style="top: 30%; left: 20%;"></div>
+            <div class="block respawn" style="top: 45%; left: 20%;"></div>
+            <div class="block respawn" style="top: 60%; left: 20%;"></div>
+            <div class="block respawn" style="top: 60%; left: 30%;"></div>
+            <div class="block respawn" style="top: 83.5%; left: 60%;"></div>
+            <div class="block respawn" style="top: 70%; left: 60%;"></div>
+            <div class="block respawn" style="top: 60%; left: 60%;"></div>
+            <div class="block respawn" style="top: 45%; left: 60%;"></div>
+            <div class="block respawn" style="top: 30%; left: 50%;"></div>
+            <div class="block respawn" style="top: 50%; left: 90%;"></div>
+            <div class="block respawn" style="top: 15%; left: 60%;"></div>
+            <div id="specialBlock" class="block" style="top: 91.9%; left: 93.6%;"></div> <!-- Bloco especial que redireciona para fim.html -->
         </div>
         <div class="controls">
             <button id="up">↑</button>
@@ -30,14 +43,15 @@
             </div>
         </div>
     </div>
+
     <script>
         const player = document.getElementById('player');
         const container = document.getElementById('container');
         const blocks = document.querySelectorAll('.block');
         const endBlock = document.getElementById('endBlock');
+        const specialBlock = document.getElementById('specialBlock');
         const step = 5; // Número de pixels a mover por intervalo
         const interval = 10; // Tempo de intervalo em milissegundos
-        const minDistance = 50; // Distância mínima dos blocos
 
         let keysPressed = {};
         let moveInterval = null;
@@ -55,6 +69,15 @@
         };
 
         const isColliding = (rect1, rect2) => {
+            return !(
+                rect1.top > rect2.bottom ||
+                rect1.bottom < rect2.top ||
+                rect1.left > rect2.right ||
+                rect1.right < rect2.left
+            );
+        };
+
+        const checkCollision = (rect1, rect2) => {
             return !(
                 rect1.top > rect2.bottom ||
                 rect1.bottom < rect2.top ||
@@ -94,19 +117,32 @@
                 const blockRect = block.getBoundingClientRect();
                 const playerRect = player.getBoundingClientRect();
 
-                if (isColliding(playerRect, blockRect)) {
-                    collision = true;
-                    if (keysPressed['w'] || keysPressed['W'] || keysPressed['ArrowUp']) {
-                        newTop = blockRect.bottom;
+                if (block.classList.contains('respawn')) {
+                    // Bloco de respawn
+                    if (checkCollision(playerRect, blockRect)) {
+                        window.location.reload(); // Reinicia a página
                     }
-                    if (keysPressed['a'] || keysPressed['A'] || keysPressed['ArrowLeft']) {
-                        newLeft = blockRect.right;
+                } else if (block.id === 'specialBlock') {
+                    // Bloco especial que redireciona para fim.html
+                    if (checkCollision(playerRect, blockRect)) {
+                        window.location.href = "fim.html";
                     }
-                    if (keysPressed['s'] || keysPressed['S'] || keysPressed['ArrowDown']) {
-                        newTop = blockRect.top - player.clientHeight;
-                    }
-                    if (keysPressed['d'] || keysPressed['D'] || keysPressed['ArrowRight']) {
-                        newLeft = blockRect.left - player.clientWidth;
+                } else {
+                    // Outros blocos
+                    if (checkCollision(playerRect, blockRect)) {
+                        collision = true;
+                        if (keysPressed['w'] || keysPressed['W'] || keysPressed['ArrowUp']) {
+                            newTop = blockRect.bottom;
+                        }
+                        if (keysPressed['a'] || keysPressed['A'] || keysPressed['ArrowLeft']) {
+                            newLeft = blockRect.right;
+                        }
+                        if (keysPressed['s'] || keysPressed['S'] || keysPressed['ArrowDown']) {
+                            newTop = blockRect.top - player.clientHeight;
+                        }
+                        if (keysPressed['d'] || keysPressed['D'] || keysPressed['ArrowRight']) {
+                            newLeft = blockRect.left - player.clientWidth;
+                        }
                     }
                 }
             });
@@ -118,11 +154,6 @@
             } else {
                 player.style.top = newTop + 'px';
                 player.style.left = newLeft + 'px';
-            }
-
-            // Verificar colisão com o bloco final
-            if (checkCollisionWithEndBlock()) {
-                window.location.href = "fim.html";
             }
         };
 
@@ -180,8 +211,9 @@
         addMobileControls('left', 'ArrowLeft');
         addMobileControls('right', 'ArrowRight');
     </script>
-    <footer>&copy;Feito por Thiago bel</footer>
+    <footer>&copy; Feito por Thiago bel</footer>
     <script type="module" src="script.js"></script>
     <script type="module" src="NOMOBILE.js"></script>
+
 </body>
 </html>
